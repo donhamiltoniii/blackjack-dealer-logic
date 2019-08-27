@@ -1,0 +1,10 @@
+{
+  "name": "blackjack-dealer-logic",
+  "version": "1.0.0",
+  "description": "A library for black jack dealer logic",
+  "main": "index.js",
+  "repository": "fix.this.immediately",
+  "author": "Don Hamilton III <donhamiltoniii@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
