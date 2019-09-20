@@ -10,10 +10,12 @@ declare class Table {
     constructor(player: Player, dealer: Dealer);
     deal(): void;
     getAnte(): number;
+    getDealer(): Dealer;
     getDealerCardUp(): string;
     getDealerHand(): Hand;
     getPlayerChips(): number;
     getPlayerHand(): Hand;
+    getPlayerHandValues(): string;
     receiveAnte(ante: number): void;
 }
 export default Table;

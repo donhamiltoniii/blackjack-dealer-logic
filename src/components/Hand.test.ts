@@ -22,4 +22,15 @@ describe('Hand', () => {
       expect(actual).toBe('2a, 3b')
     })
   })
+
+  describe('addCard', () => {
+    test('should increase number of cards in hand', () => {
+      const underTest = new Hand(new Card('2', 'a'), new Card('3', 'b'))
+
+      underTest.addCard(new Card('s', '✊'))
+      const cardsLength = underTest.getCards().length
+
+      expect(cardsLength).toEqual(3)
+    })
+  })
 })

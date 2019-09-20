@@ -14,6 +14,9 @@ var Table = /** @class */ (function () {
     Table.prototype.getAnte = function () {
         return this.ante;
     };
+    Table.prototype.getDealer = function () {
+        return this.dealer;
+    };
     Table.prototype.getDealerCardUp = function () {
         if (this.dealerHand === undefined) {
             throw new Error("dealerHand isn't defined yet");
@@ -36,6 +39,12 @@ var Table = /** @class */ (function () {
             throw new Error("playerHand isn't defined yet");
         }
         return this.playerHand;
+    };
+    Table.prototype.getPlayerHandValues = function () {
+        if (this.playerHand === undefined) {
+            throw new Error("playerHand isn't defined yet");
+        }
+        return this.playerHand.getHandValue();
     };
     Table.prototype.receiveAnte = function (ante) {
         this.player.wager(ante);

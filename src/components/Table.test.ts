@@ -77,19 +77,97 @@ describe('Table', () => {
     })
   })
 
-  describe('getPlayerHAndValues', () => {
+  describe('getPlayerHAndValue', () => {
     test('should throw error if playerHand is undefined', () => {
       expect(() => {
-        underTest.getPlayerHandValues()
+        underTest.getPlayerHandValue()
       }).toThrow("playerHand isn't defined yet")
     })
 
     test('should return a string of comma seperated values representing the current hand', () => {
       underTest.deal()
 
-      const actual = underTest.getPlayerHandValues()
+      const actual = underTest.getPlayerHandValue()
 
-      expect(actual).toBe(`4♤, 5♤`)
+      expect(actual).toBe(
+        underTest
+          .getPlayerHand()
+          .getCards()
+          .map((card: Card) => card.getValue())
+          .join(', ')
+      )
     })
   })
+
+  describe('hitPlayer', () => {
+    test('should deal a card to player hand', () => {
+      underTest.deal()
+      underTest.hitPlayer()
+
+      const playerHandLength = underTest.getPlayerHand().getCards().length
+
+      expect(playerHandLength).toEqual(3)
+    })
+  })
+
+  describe('doublePlayer', () => {
+    test('should deal one card to player', () => {
+      underTest.deal()
+      underTest.doublePlayer()
+
+      const playerHandLength = underTest.getPlayerHand().getCards().length
+
+      expect(playerHandLength).toEqual(3)
+    })
+
+    test('should double ante', () => {
+      underTest.deal()
+      underTest.receiveAnte(25)
+      const currentAnte = underTest.getAnte()
+
+      underTest.doublePlayer()
+      const newAnte = underTest.getAnte()
+
+      expect(currentAnte * 2).toEqual(newAnte)
+    })
+
+    test('should set playerPlaying to flase', () => {
+      underTest.deal()
+      underTest.doublePlayer()
+
+      expect(underTest.isPlayerPlaying()).toBeFalsy()
+    })
+  })
+
+  describe('standPlayer', () => {
+    test('should set playerPlaying to false', () => {
+      underTest.standPlayer()
+
+      expect(underTest.isPlayerPlaying()).toBeFalsy()
+    })
+  })
+
+  describe('getDealerHandValue', () => {
+    test('should throw error if dealerHand is undefined', () => {
+      expect(() => {
+        underTest.getDealerHandValue()
+      }).toThrow("dealerHand isn't defined yet")
+    })
+
+    test('should return a string of comma seperated values representing the current hand', () => {
+      underTest.deal()
+
+      const actual = underTest.getDealerHandValue()
+
+      expect(actual).toBe(
+        underTest
+          .getDealerHand()
+          .getCards()
+          .map((card: Card) => card.getValue())
+          .join(', ')
+      )
+    })
+  })
+
+  describe('evalutePlayerHand', () => {})
 })

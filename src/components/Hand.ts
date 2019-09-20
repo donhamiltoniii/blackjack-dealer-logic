@@ -9,6 +9,14 @@ class Hand {
     this.cards.push(cardTwo)
   }
 
+  public addCard(card: Card) {
+    this.cards.push(card)
+  }
+
+  public getCards(): Card[] {
+    return this.cards
+  }
+
   public getFirstCard(): Card {
     return this.cards[0]
   }

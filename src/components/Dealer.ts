@@ -1,11 +1,16 @@
-import { Deck } from 'playing-card-deck-generator'
+import { Card, Deck } from 'playing-card-deck-generator'
 import Hand from './Hand'
 
 class Dealer {
   private deck: Deck
 
   constructor(deck: Deck) {
+    deck.shuffle()
     this.deck = deck
+  }
+
+  public dealCard(): Card {
+    return this.deck.dealTopCard()
   }
 
   public dealHands(): Hand[] {
@@ -16,6 +21,10 @@ class Dealer {
     )
 
     return [firstHand, secondHand]
+  }
+
+  public getDeck(): Deck {
+    return this.deck
   }
 }
 
