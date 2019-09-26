@@ -31,7 +31,6 @@ while (gameTable.isPlayerPlaying()) {
   switch (userHandAction) {
     case '1':
       gameTable.hitPlayer()
-      gameTable.evaluatePlayerHand()
       break
 
     case '2':
@@ -48,6 +47,7 @@ while (gameTable.isPlayerPlaying()) {
 }
 
 if (gameTable.isPlayerBust()) {
+  p('BUST! you lose... Better luck next time!')
 }
 p()
 p(`Dealer has: ${gameTable.getDealerHandValue()}`)

@@ -4,10 +4,12 @@ import Hand from './Hand'
 import Player from './Player'
 
 class Table {
+  private static BLACKJACK: number = 21
   private ante: number
   private dealer: Dealer
   private dealerHand: Hand | undefined
   private player: Player
+  private playerBust: boolean
   private playerHand: Hand | undefined
   private playerPlaying: boolean
 
@@ -15,6 +17,7 @@ class Table {
     this.ante = 0
     this.dealer = dealer
     this.player = player
+    this.playerBust = false
     this.playerPlaying = true
   }
 
@@ -32,10 +35,39 @@ class Table {
     this.player.wager(this.ante)
     this.ante = this.ante * 2
     this.playerPlaying = false
+    this.evaluateHand()
+  }
+
+  public evaluateHand(): void {
+    if (this.playerHand === undefined) {
+      throw new Error("Player hand isn't established yet")
+    }
+
+    let valueTotal: number = 0
+
+    this.playerHand.getCards().forEach((card: Card) => {
+      const value: string = card.getValue().split('')[0]
+
+      if (value === 'A') {
+        valueTotal += 11
+      } else if (value === 'J' || value === 'Q' || value === 'K') {
+        valueTotal += 10
+      } else {
+        valueTotal += Number(value)
+      }
+    })
+
+    if (valueTotal > Table.BLACKJACK) {
+      this.playerBust = true
+    }
   }
 
   public getAnte(): number {
     return this.ante
+  }
+
+  public getDealer(): Dealer {
+    return this.dealer
   }
 
   public getDealerCardUp(): string {
@@ -84,10 +116,11 @@ class Table {
       throw new Error("Player hand isn't established yet")
     }
     this.playerHand.addCard(this.dealer.dealCard())
+    this.evaluateHand()
   }
 
   public isPlayerBust(): boolean {
-    throw new Error('Method not implemented.')
+    return this.playerBust
   }
 
   public isPlayerPlaying(): boolean {
@@ -101,10 +134,6 @@ class Table {
 
   public standPlayer() {
     this.playerPlaying = false
-  }
-
-  private getDealer(): Dealer {
-    return this.dealer
   }
 }
 

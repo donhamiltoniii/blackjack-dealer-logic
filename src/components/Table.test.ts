@@ -77,14 +77,14 @@ describe('Table', () => {
     })
   })
 
-  describe('getPlayerHAndValue', () => {
+  describe('getPlayerHandValue', () => {
     test('should throw error if playerHand is undefined', () => {
       expect(() => {
         underTest.getPlayerHandValue()
       }).toThrow("playerHand isn't defined yet")
     })
 
-    test('should return a string of comma seperated values representing the current hand', () => {
+    test('should return a string of comma separated values representing the current hand', () => {
       underTest.deal()
 
       const actual = underTest.getPlayerHandValue()
@@ -107,6 +107,15 @@ describe('Table', () => {
       const playerHandLength = underTest.getPlayerHand().getCards().length
 
       expect(playerHandLength).toEqual(3)
+    })
+
+    test('should call evaluateHand', () => {
+      underTest.evaluateHand = jest.fn()
+
+      underTest.deal()
+      underTest.hitPlayer()
+
+      expect(underTest.evaluateHand).toBeCalledTimes(1)
     })
   })
 
@@ -136,6 +145,15 @@ describe('Table', () => {
       underTest.doublePlayer()
 
       expect(underTest.isPlayerPlaying()).toBeFalsy()
+    })
+
+    test('should call evaluateHand', () => {
+      underTest.evaluateHand = jest.fn()
+
+      underTest.deal()
+      underTest.doublePlayer()
+
+      expect(underTest.evaluateHand).toBeCalledTimes(1)
     })
   })
 
@@ -169,5 +187,17 @@ describe('Table', () => {
     })
   })
 
-  describe('evalutePlayerHand', () => {})
+  describe('evaluateHand', () => {
+    test('should set playerBust to true when hand value is over 21', () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card('10', 'R'), new Card('3', '7')),
+        new Hand(new Card('10', 'R'), new Card('A', '🎓'))
+      ])
+      underTest.deal()
+      underTest.hitPlayer()
+
+      expect(testDealer.dealHands).toHaveBeenCalledTimes(1)
+      // expect(underTest.isPlayerBust()).toBeTruthy()
+    })
+  })
 })
