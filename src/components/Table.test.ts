@@ -190,14 +190,14 @@ describe('Table', () => {
   describe('evaluateHand', () => {
     test('should set playerBust to true when hand value is over 21', () => {
       testDealer.dealHands = jest.fn((): Hand[] => [
-        new Hand(new Card('10', 'R'), new Card('3', '7')),
-        new Hand(new Card('10', 'R'), new Card('A', '🎓'))
+        new Hand(new Card('10', 'suit'), new Card('10', 'suit')),
+        new Hand(new Card('10', 'suit'), new Card('A', 'suit'))
       ])
       underTest.deal()
       underTest.hitPlayer()
 
       expect(testDealer.dealHands).toHaveBeenCalledTimes(1)
-      // expect(underTest.isPlayerBust()).toBeTruthy()
+      expect(underTest.isPlayerBust()).toBeTruthy()
     })
   })
 })

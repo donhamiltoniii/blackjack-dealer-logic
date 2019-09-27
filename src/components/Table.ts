@@ -50,7 +50,12 @@ class Table {
 
       if (value === 'A') {
         valueTotal += 11
-      } else if (value === 'J' || value === 'Q' || value === 'K') {
+      } else if (
+        value === 'J' ||
+        value === 'Q' ||
+        value === 'K' ||
+        value === '1'
+      ) {
         valueTotal += 10
       } else {
         valueTotal += Number(value)
