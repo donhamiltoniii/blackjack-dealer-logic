@@ -27,7 +27,7 @@ p('2. Double')
 p('3. Stand')
 const userHandAction: string = ask('what would you like to do? ')
 
-while (gameTable.isPlayerPlaying()) {
+while (gameTable.isPlayerPlaying() && !gameTable.isPlayerBust()) {
   switch (userHandAction) {
     case '1':
       gameTable.hitPlayer()

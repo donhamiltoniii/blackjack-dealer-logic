@@ -2683,10 +2683,10 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
-playing-card-deck-generator@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/playing-card-deck-generator/-/playing-card-deck-generator-1.5.0.tgz#a07899ee3d3d60a10576c0e6512426955f2ef317"
-  integrity sha512-JOXQRFVnmM0gurPx3dagnTCj3rKQLzuaHNqzyfw7sw9vSZVHYXB4a93XhuVNla+TjW9MiRTbh1JGxy+8XoMR7g==
+playing-card-deck-generator@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/playing-card-deck-generator/-/playing-card-deck-generator-2.0.1.tgz#ad0e4def99d0657d9252ab5d400f46cbdaa4a3d6"
+  integrity sha512-3xttJdmAqzOQxvmRrc4hWSlOKn2K/05AmjCTD7uAf+OizdTvZG8sn6LLfLBhyTZY9FkiJJHl8+N5xmfmytp1bg==
   dependencies:
     "@types/node" "^12.7.2"
 

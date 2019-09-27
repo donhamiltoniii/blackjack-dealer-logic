@@ -6,6 +6,9 @@ var Hand = /** @class */ (function () {
         this.cards.push(cardOne);
         this.cards.push(cardTwo);
     }
+    Hand.prototype.addCard = function (card) {
+        this.cards.push(card);
+    };
     Hand.prototype.getCards = function () {
         return this.cards;
     };
@@ -13,7 +16,9 @@ var Hand = /** @class */ (function () {
         return this.cards[0];
     };
     Hand.prototype.getHandValue = function () {
-        return this.cards.map(function (card) { return card.getValue(); }).join(", ");
+        return this.cards
+            .map(function (card) { return card.getCardValue().join(''); })
+            .join(', ');
     };
     return Hand;
 }());

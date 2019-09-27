@@ -5,11 +5,44 @@ var Table = /** @class */ (function () {
         this.ante = 0;
         this.dealer = dealer;
         this.player = player;
+        this.playerBust = false;
+        this.playerPlaying = true;
     }
     Table.prototype.deal = function () {
         var _a = this.dealer.dealHands(), dealerHand = _a[0], playerHand = _a[1];
         this.dealerHand = dealerHand;
         this.playerHand = playerHand;
+    };
+    Table.prototype.doublePlayer = function () {
+        if (this.playerHand === undefined) {
+            throw new Error("Player hand isn't established yet");
+        }
+        this.playerHand.addCard(this.dealer.dealCard());
+        this.player.wager(this.ante);
+        this.ante = this.ante * 2;
+        this.playerPlaying = false;
+        this.evaluateHand();
+    };
+    Table.prototype.evaluateHand = function () {
+        if (this.playerHand === undefined) {
+            throw new Error("Player hand isn't established yet");
+        }
+        var valueTotal = 0;
+        this.playerHand.getCards().forEach(function (card) {
+            var value = card.getValue();
+            if (value === 'A') {
+                valueTotal += 11;
+            }
+            else if (value === 'J' || value === 'Q' || value === 'K') {
+                valueTotal += 10;
+            }
+            else {
+                valueTotal += Number(value);
+            }
+        });
+        if (valueTotal > Table.BLACKJACK) {
+            this.playerBust = true;
+        }
     };
     Table.prototype.getAnte = function () {
         return this.ante;
@@ -22,7 +55,7 @@ var Table = /** @class */ (function () {
             throw new Error("dealerHand isn't defined yet");
         }
         var firstDealerCard = this.dealerHand.getFirstCard();
-        var cardValue = firstDealerCard.getValue();
+        var cardValue = firstDealerCard.getCardValue().join('');
         return cardValue;
     };
     Table.prototype.getDealerHand = function () {
@@ -30,6 +63,12 @@ var Table = /** @class */ (function () {
             throw new Error("dealerHand isn't defined yet");
         }
         return this.dealerHand;
+    };
+    Table.prototype.getDealerHandValue = function () {
+        if (this.dealerHand === undefined) {
+            throw new Error("dealerHand isn't defined yet");
+        }
+        return this.dealerHand.getHandValue();
     };
     Table.prototype.getPlayerChips = function () {
         return this.player.getChips();
@@ -40,16 +79,33 @@ var Table = /** @class */ (function () {
         }
         return this.playerHand;
     };
-    Table.prototype.getPlayerHandValues = function () {
+    Table.prototype.getPlayerHandValue = function () {
         if (this.playerHand === undefined) {
             throw new Error("playerHand isn't defined yet");
         }
         return this.playerHand.getHandValue();
     };
+    Table.prototype.hitPlayer = function () {
+        if (this.playerHand === undefined) {
+            throw new Error("Player hand isn't established yet");
+        }
+        this.playerHand.addCard(this.dealer.dealCard());
+        this.evaluateHand();
+    };
+    Table.prototype.isPlayerBust = function () {
+        return this.playerBust;
+    };
+    Table.prototype.isPlayerPlaying = function () {
+        return this.playerPlaying;
+    };
     Table.prototype.receiveAnte = function (ante) {
         this.player.wager(ante);
         this.ante += ante;
     };
+    Table.prototype.standPlayer = function () {
+        this.playerPlaying = false;
+    };
+    Table.BLACKJACK = 21;
     return Table;
 }());
 exports.default = Table;

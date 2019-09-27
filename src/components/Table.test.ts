@@ -72,7 +72,8 @@ describe('Table', () => {
         underTest
           .getDealerHand()
           .getFirstCard()
-          .getValue()
+          .getCardValue()
+          .join('')
       )
     })
   })
@@ -93,7 +94,7 @@ describe('Table', () => {
         underTest
           .getPlayerHand()
           .getCards()
-          .map((card: Card) => card.getValue())
+          .map((card: Card) => card.getCardValue().join(''))
           .join(', ')
       )
     })
@@ -181,7 +182,7 @@ describe('Table', () => {
         underTest
           .getDealerHand()
           .getCards()
-          .map((card: Card) => card.getValue())
+          .map((card: Card) => card.getCardValue().join(''))
           .join(', ')
       )
     })
@@ -194,10 +195,26 @@ describe('Table', () => {
         new Hand(new Card('10', 'suit'), new Card('A', 'suit'))
       ])
       underTest.deal()
+      // hitPlayer calls evaluateHand by necessity
       underTest.hitPlayer()
 
       expect(testDealer.dealHands).toHaveBeenCalledTimes(1)
       expect(underTest.isPlayerBust()).toBeTruthy()
     })
+  })
+
+  test('should evaluate necessary Aces as value 1 when Hand evaluates to higher than 21', () => {
+    testDealer.dealHands = jest.fn((): Hand[] => [
+      new Hand(new Card('10', 'suit'), new Card('10', 'suit')),
+      new Hand(new Card('10', 'suit'), new Card('A', 'suit'))
+    ])
+
+    testDealer.dealCard = jest.fn((): Card => new Card('2', 'suit'))
+
+    underTest.deal()
+    // hitPlayer calls evaluateHand by necessity
+    underTest.hitPlayer()
+
+    expect(underTest.evaluateHand()).toBe(13)
   })
 })

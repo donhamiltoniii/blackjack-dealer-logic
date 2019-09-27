@@ -9,6 +9,9 @@ var Dealer = /** @class */ (function () {
         deck.shuffle();
         this.deck = deck;
     }
+    Dealer.prototype.dealCard = function () {
+        return this.deck.dealTopCard();
+    };
     Dealer.prototype.dealHands = function () {
         var firstHand = new Hand_1.default(this.deck.dealTopCard(), this.deck.dealTopCard());
         var secondHand = new Hand_1.default(this.deck.dealTopCard(), this.deck.dealTopCard());

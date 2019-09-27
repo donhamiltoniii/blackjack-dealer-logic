@@ -38,7 +38,7 @@ class Table {
     this.evaluateHand()
   }
 
-  public evaluateHand(): void {
+  public evaluateHand(): number {
     if (this.playerHand === undefined) {
       throw new Error("Player hand isn't established yet")
     }
@@ -46,16 +46,14 @@ class Table {
     let valueTotal: number = 0
 
     this.playerHand.getCards().forEach((card: Card) => {
-      const value: string = card.getValue().split('')[0]
+      if (this.playerHand === undefined) {
+        throw new Error("Player hand isn't established yet")
+      }
+      const value: string = card.getValue()
 
       if (value === 'A') {
         valueTotal += 11
-      } else if (
-        value === 'J' ||
-        value === 'Q' ||
-        value === 'K' ||
-        value === '1'
-      ) {
+      } else if (value === 'J' || value === 'Q' || value === 'K') {
         valueTotal += 10
       } else {
         valueTotal += Number(value)
@@ -65,6 +63,31 @@ class Table {
     if (valueTotal > Table.BLACKJACK) {
       this.playerBust = true
     }
+
+    if (this.isPlayerBust()) {
+      valueTotal = 0
+
+      this.playerHand.getCards().forEach((card: Card) => {
+        if (this.playerHand === undefined) {
+          throw new Error("Player hand isn't established yet")
+        }
+        const value: string = card.getValue()
+
+        if (value === 'A') {
+          valueTotal += 1
+        } else if (value === 'J' || value === 'Q' || value === 'K') {
+          valueTotal += 10
+        } else {
+          valueTotal += Number(value)
+        }
+      })
+
+      if (valueTotal > Table.BLACKJACK) {
+        this.playerBust = true
+      }
+    }
+
+    return valueTotal
   }
 
   public getAnte(): number {
@@ -80,7 +103,7 @@ class Table {
       throw new Error("dealerHand isn't defined yet")
     }
     const firstDealerCard: Card = this.dealerHand.getFirstCard()
-    const cardValue: string = firstDealerCard.getValue()
+    const cardValue: string = firstDealerCard.getCardValue().join('')
     return cardValue
   }
 
