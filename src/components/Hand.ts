@@ -22,7 +22,9 @@ class Hand {
   }
 
   public getHandValue(): string {
-    return this.cards.map((card: Card) => card.getValue()).join(', ')
+    return this.cards
+      .map((card: Card) => card.getCardValue().join(''))
+      .join(', ')
   }
 }
 
