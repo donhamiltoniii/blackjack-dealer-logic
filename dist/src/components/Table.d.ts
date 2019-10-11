@@ -13,7 +13,7 @@ declare class Table {
     constructor(player: Player, dealer: Dealer);
     deal(): void;
     doublePlayer(): void;
-    evaluateHand(): void;
+    evaluateHand(): number;
     getAnte(): number;
     getDealer(): Dealer;
     getDealerCardUp(): string;

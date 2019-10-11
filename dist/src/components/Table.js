@@ -24,11 +24,15 @@ var Table = /** @class */ (function () {
         this.evaluateHand();
     };
     Table.prototype.evaluateHand = function () {
+        var _this = this;
         if (this.playerHand === undefined) {
             throw new Error("Player hand isn't established yet");
         }
         var valueTotal = 0;
         this.playerHand.getCards().forEach(function (card) {
+            if (_this.playerHand === undefined) {
+                throw new Error("Player hand isn't established yet");
+            }
             var value = card.getValue();
             if (value === 'A') {
                 valueTotal += 11;
@@ -43,6 +47,28 @@ var Table = /** @class */ (function () {
         if (valueTotal > Table.BLACKJACK) {
             this.playerBust = true;
         }
+        if (this.isPlayerBust()) {
+            valueTotal = 0;
+            this.playerHand.getCards().forEach(function (card) {
+                if (_this.playerHand === undefined) {
+                    throw new Error("Player hand isn't established yet");
+                }
+                var value = card.getValue();
+                if (value === 'A') {
+                    valueTotal += 1;
+                }
+                else if (value === 'J' || value === 'Q' || value === 'K') {
+                    valueTotal += 10;
+                }
+                else {
+                    valueTotal += Number(value);
+                }
+            });
+            if (valueTotal > Table.BLACKJACK) {
+                this.playerBust = true;
+            }
+        }
+        return valueTotal;
     };
     Table.prototype.getAnte = function () {
         return this.ante;

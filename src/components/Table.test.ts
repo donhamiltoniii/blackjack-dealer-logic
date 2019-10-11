@@ -1,8 +1,8 @@
-import { Card, standardDeck } from "playing-card-deck-generator"
-import Dealer from "./Dealer"
-import Hand from "./Hand"
-import Player from "./Player"
-import Table from "./Table"
+import { Card, standardDeck } from "playing-card-deck-generator";
+import Dealer from "./Dealer";
+import Hand from "./Hand";
+import Player from "./Player";
+import Table from "./Table";
 
 describe("Table", () => {
   let testDealer: Dealer;
@@ -201,20 +201,20 @@ describe("Table", () => {
       expect(testDealer.dealHands).toHaveBeenCalledTimes(1);
       expect(underTest.isPlayerBust()).toBeTruthy();
     });
-  });
 
-  test("should evaluate Ace as value 1 when Hand evaluates to higher than 21", () => {
-    testDealer.dealHands = jest.fn((): Hand[] => [
-      new Hand(new Card("10", "suit"), new Card("10", "suit")),
-      new Hand(new Card("10", "suit"), new Card("A", "suit")),
-    ]);
+    test("should evaluate Ace as value 1 when Hand evaluates to higher than 21", () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card("10", "suit"), new Card("10", "suit")),
+        new Hand(new Card("10", "suit"), new Card("A", "suit")),
+      ]);
 
-    testDealer.dealCard = jest.fn((): Card => new Card("2", "suit"));
+      testDealer.dealCard = jest.fn((): Card => new Card("2", "suit"));
 
-    underTest.deal();
-    // hitPlayer calls evaluateHand by necessity
-    underTest.hitPlayer();
+      underTest.deal();
+      // hitPlayer calls evaluateHand by necessity
+      underTest.hitPlayer();
 
-    expect(underTest.evaluateHand()).toBe(13);
+      expect(underTest.evaluateHand()).toBe(13);
+    });
   });
 });
