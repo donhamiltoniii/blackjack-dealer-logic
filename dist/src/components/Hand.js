@@ -17,8 +17,11 @@ var Hand = /** @class */ (function () {
     };
     Hand.prototype.getHandValue = function () {
         return this.cards
-            .map(function (card) { return card.getCardValue().join(''); })
-            .join(', ');
+            .map(function (card) { return card.getCardValue().join(""); })
+            .join(", ");
+    };
+    Hand.prototype.getHandValues = function () {
+        return this.cards.map(function (card) { return card.getValue(); });
     };
     return Hand;
 }());

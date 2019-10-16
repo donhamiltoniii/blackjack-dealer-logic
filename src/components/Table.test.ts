@@ -1,18 +1,19 @@
 import { Card, standardDeck } from "playing-card-deck-generator";
 import Dealer from "./Dealer";
 import Hand from "./Hand";
-import Player from "./Player";
+import Result from "./Result";
 import Table from "./Table";
+import User from "./User";
 
 describe("Table", () => {
   let testDealer: Dealer;
-  let testPlayer: Player;
+  let testUser: User;
   let underTest: Table;
 
   beforeEach(() => {
     testDealer = new Dealer(standardDeck);
-    testPlayer = new Player();
-    underTest = new Table(testPlayer, testDealer);
+    testUser = new User();
+    underTest = new Table(testUser, testDealer);
   });
 
   describe("receiveAnte", () => {
@@ -25,7 +26,7 @@ describe("Table", () => {
     test("decreases Player ante", () => {
       underTest.receiveAnte(25);
 
-      expect(underTest.getPlayerChips()).toEqual(175);
+      expect(underTest.getUserChips()).toEqual(175);
     });
 
     test("throws error if error is received from Player.wager", () => {
@@ -50,15 +51,7 @@ describe("Table", () => {
       underTest.deal();
 
       expect(underTest.getDealerHand()).toBeInstanceOf(Hand);
-      expect(underTest.getPlayerHand()).toBeInstanceOf(Hand);
-    });
-  });
-
-  describe("getDealerHand", () => {
-    test("should throw error if dealerHand is undefined", () => {
-      expect(() => {
-        underTest.getDealerHand();
-      }).toThrow("dealerHand isn't defined yet");
+      expect(underTest.getUserHand()).toBeInstanceOf(Hand);
     });
   });
 
@@ -79,20 +72,14 @@ describe("Table", () => {
   });
 
   describe("getPlayerHandValue", () => {
-    test("should throw error if playerHand is undefined", () => {
-      expect(() => {
-        underTest.getPlayerHandValue();
-      }).toThrow("playerHand isn't defined yet");
-    });
-
     test("should return a string of comma separated values representing the current hand", () => {
       underTest.deal();
 
-      const actual = underTest.getPlayerHandValue();
+      const actual = underTest.getUserHandValue();
 
       expect(actual).toBe(
         underTest
-          .getPlayerHand()
+          .getUserHand()
           .getCards()
           .map((card: Card) => card.getCardValue().join(""))
           .join(", "),
@@ -103,29 +90,20 @@ describe("Table", () => {
   describe("hitPlayer", () => {
     test("should deal a card to player hand", () => {
       underTest.deal();
-      underTest.hitPlayer();
+      underTest.hitUser();
 
-      const playerHandLength = underTest.getPlayerHand().getCards().length;
+      const playerHandLength = underTest.getUserHand().getCards().length;
 
       expect(playerHandLength).toEqual(3);
-    });
-
-    test("should call evaluateHand", () => {
-      underTest.evaluateHand = jest.fn();
-
-      underTest.deal();
-      underTest.hitPlayer();
-
-      expect(underTest.evaluateHand).toBeCalledTimes(1);
     });
   });
 
   describe("doublePlayer", () => {
     test("should deal one card to player", () => {
       underTest.deal();
-      underTest.doublePlayer();
+      underTest.doubleUser();
 
-      const playerHandLength = underTest.getPlayerHand().getCards().length;
+      const playerHandLength = underTest.getUserHand().getCards().length;
 
       expect(playerHandLength).toEqual(3);
     });
@@ -135,45 +113,30 @@ describe("Table", () => {
       underTest.receiveAnte(25);
       const currentAnte = underTest.getAnte();
 
-      underTest.doublePlayer();
+      underTest.doubleUser();
       const newAnte = underTest.getAnte();
 
       expect(currentAnte * 2).toEqual(newAnte);
     });
 
-    test("should set playerPlaying to flase", () => {
+    test("should set playerPlaying to false", () => {
       underTest.deal();
-      underTest.doublePlayer();
+      underTest.doubleUser();
 
-      expect(underTest.isPlayerPlaying()).toBeFalsy();
-    });
-
-    test("should call evaluateHand", () => {
-      underTest.evaluateHand = jest.fn();
-
-      underTest.deal();
-      underTest.doublePlayer();
-
-      expect(underTest.evaluateHand).toBeCalledTimes(1);
+      expect(underTest.isUserPlaying()).toBeFalsy();
     });
   });
 
   describe("standPlayer", () => {
     test("should set playerPlaying to false", () => {
-      underTest.standPlayer();
+      underTest.standUser();
 
-      expect(underTest.isPlayerPlaying()).toBeFalsy();
+      expect(underTest.isUserPlaying()).toBeFalsy();
     });
   });
 
   describe("getDealerHandValue", () => {
-    test("should throw error if dealerHand is undefined", () => {
-      expect(() => {
-        underTest.getDealerHandValue();
-      }).toThrow("dealerHand isn't defined yet");
-    });
-
-    test("should return a string of comma seperated values representing the current hand", () => {
+    test("should return a string of comma separated values representing the current hand", () => {
       underTest.deal();
 
       const actual = underTest.getDealerHandValue();
@@ -192,14 +155,15 @@ describe("Table", () => {
     test("should set playerBust to true when hand value is over 21", () => {
       testDealer.dealHands = jest.fn((): Hand[] => [
         new Hand(new Card("10", "suit"), new Card("10", "suit")),
-        new Hand(new Card("10", "suit"), new Card("A", "suit")),
+        new Hand(new Card("10", "suit"), new Card("10", "suit")),
       ]);
+      testDealer.dealCard = jest.fn(() => new Card("2", "suit"));
       underTest.deal();
-      // hitPlayer calls evaluateHand by necessity
-      underTest.hitPlayer();
+      underTest.hitUser();
+      underTest.evaluateUser();
 
       expect(testDealer.dealHands).toHaveBeenCalledTimes(1);
-      expect(underTest.isPlayerBust()).toBeTruthy();
+      expect(underTest.isUserBust()).toBeTruthy();
     });
 
     test("should evaluate Ace as value 1 when Hand evaluates to higher than 21", () => {
@@ -211,10 +175,150 @@ describe("Table", () => {
       testDealer.dealCard = jest.fn((): Card => new Card("2", "suit"));
 
       underTest.deal();
-      // hitPlayer calls evaluateHand by necessity
-      underTest.hitPlayer();
+      underTest.hitUser();
 
-      expect(underTest.evaluateHand()).toBe(13);
+      expect(underTest.evaluateUser()).toBe(13);
+    });
+
+    test("should evaluate '9', 'A', 'A' as 21", () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card("10", "suit"), new Card("10", "suit")),
+        new Hand(new Card("9", "suit"), new Card("A", "suit")),
+      ]);
+
+      testDealer.dealCard = jest.fn((): Card => new Card("A", "suit"));
+
+      underTest.deal();
+      underTest.hitUser();
+
+      expect(underTest.evaluateUser()).toBe(21);
     });
   });
+
+  describe("settleDealerHand", () => {
+    test("should hit when hand evaluates to less than 17", () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card("10", "suit"), new Card("6", "suit")),
+        new Hand(new Card("9", "suit"), new Card("A", "suit")),
+      ]);
+
+      testDealer.dealCard = jest.fn(() => new Card("4", "suit"));
+      jest.spyOn(underTest, "hitDealer");
+
+      underTest.deal();
+      underTest.settleDealerHand();
+
+      expect(underTest.hitDealer).toHaveBeenCalledTimes(1);
+      expect(underTest.evaluateDealer()).toBe(20);
+    });
+
+    test("should stand when hand evaluates to 17+", () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card("10", "suit"), new Card("7", "suit")),
+        new Hand(new Card("9", "suit"), new Card("A", "suit")),
+      ]);
+
+      testDealer.dealCard = jest.fn(() => new Card("4", "suit"));
+      jest.spyOn(underTest, "standDealer");
+
+      underTest.deal();
+      underTest.settleDealerHand();
+
+      expect(underTest.standDealer).toHaveBeenCalledTimes(1);
+      expect(underTest.evaluateDealer()).toBe(17);
+    });
+  });
+
+  describe("outcome", () => {
+    test("returns Result.LOSS when userHand evaluates lower than dealerHand", () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card("10", "suit"), new Card("A", "suit")),
+        new Hand(new Card("9", "suit"), new Card("A", "suit")),
+      ]);
+
+      underTest.deal();
+
+      expect(underTest.outcome()).toBe(Result.LOSS);
+    });
+
+    test("returns result.PUSH when userHand evaluates the same as dealerHand", () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card("10", "suit"), new Card("7", "suit")),
+        new Hand(new Card("10", "suit"), new Card("7", "suit")),
+      ]);
+
+      underTest.deal();
+
+      expect(underTest.outcome()).toBe(Result.PUSH);
+    });
+
+    test("returns result.WIN when userHand evaluates higher than dealerHand", () => {
+      testDealer.dealHands = jest.fn((): Hand[] => [
+        new Hand(new Card("9", "suit"), new Card("A", "suit")),
+        new Hand(new Card("10", "suit"), new Card("A", "suit")),
+      ]);
+
+      underTest.deal();
+
+      expect(underTest.outcome()).toBe(Result.WIN);
+    });
+  });
+
+  describe("resetAnte", () => {
+    test("should set table ante to 0", () => {
+      underTest.receiveAnte(50);
+
+      underTest.resetAnte();
+
+      expect(underTest.getAnte()).toEqual(0);
+    });
+  });
+
+  describe("pushHand", () => {
+    test("should pay user current ante", () => {
+      underTest.receiveAnte(50);
+
+      underTest.pushHand();
+
+      expect(underTest.getUserChips()).toEqual(200);
+    });
+
+    test("should reset table ante", () => {
+      underTest.receiveAnte(50);
+
+      underTest.pushHand();
+
+      expect(underTest.getAnte()).toEqual(0);
+    });
+  });
+
+  describe("userWin", () => {
+    test("should pay user double the current ante", () => {
+      underTest.receiveAnte(50);
+
+      underTest.userWin();
+
+      expect(underTest.getUserChips()).toEqual(250);
+    });
+
+    test("should reset table ante", () => {
+      underTest.receiveAnte(50);
+
+      underTest.userWin();
+
+      expect(underTest.getAnte()).toEqual(0);
+    });
+  });
+
+  describe("resetPlayers", () => {
+    test("should reset player bust and playing values", () => {
+      underTest.deal()
+
+      underTest.standUser()
+      underTest.resetPlayers()
+
+      expect(underTest.isUserBust()).toBe(false)
+      expect(underTest.isUserPlaying()).toBe(true)
+    })
+  })
 });
