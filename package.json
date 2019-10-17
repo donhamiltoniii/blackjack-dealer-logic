@@ -26,6 +26,8 @@
   "private": false,
   "dependencies": {
     "@types/readline-sync": "^1.4.3",
+    "global": "^4.4.0",
+    "np": "^5.1.1",
     "playing-card-deck-generator": "^2.0.1",
     "readline-sync": "^1.4.10"
   },
