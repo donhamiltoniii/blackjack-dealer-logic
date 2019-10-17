@@ -36,12 +36,15 @@ while (gameIsRunning) {
         switch (userHandAction) {
             case "1":
                 gameTable.hitUser();
+                gameTable.evaluateUser();
                 break;
             case "2":
                 gameTable.doubleUser();
+                gameTable.evaluateUser();
                 break;
             case "3":
                 gameTable.standUser();
+                gameTable.evaluateUser();
                 break;
             default:
                 break;

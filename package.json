@@ -2,10 +2,27 @@
   "name": "blackjack-dealer-logic",
   "version": "1.0.0",
   "description": "A library for black jack dealer logic",
-  "main": "index.js",
-  "repository": "fix.this.immediately",
-  "author": "Don Hamilton III <donhamiltoniii@gmail.com>",
-  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donhamiltoniii/blackjack-dealer-logic.git"
+  },
+  "keywords": [
+    "playing",
+    "cards",
+    "generator"
+  ],
+  "author": "Don Hamilton III <donhamiltoniii@gmail.com> (https://donhamiltoniii.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/donhamiltoniii/blackjack-dealer-logic/issues"
+  },
+  "homepage": "https://github.com/donhamiltoniii/blackjack-dealer-logic#readme",
   "private": true,
   "dependencies": {
     "@types/readline-sync": "^1.4.3",
@@ -13,17 +30,19 @@
     "readline-sync": "^1.4.10"
   },
   "scripts": {
-    "build": "tsc",
-    "lint": "tslint -c tslint.json 'lib/**/*.{ts,tsx}'",
-    "pretest": "yarn run lint --fix",
-    "start": "yarn build && node dist/ui.js",
+    "build": "rollup -c",
+    "prepublish": "yarn build",
+    "start": "tsc && node dist/ui.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watchAll",
+    "watch": "rollup -cw"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.2",
     "jest": "^24.9.0",
+    "rollup": "^1.21.4",
+    "rollup-plugin-typescript2": "^0.24.2",
     "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
     "typescript": "^3.5.3"
