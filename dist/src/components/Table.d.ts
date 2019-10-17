@@ -1,4 +1,5 @@
 import Dealer from "./Dealer";
+import Hand from "./Hand";
 import Result from "./Result";
 import User from "./User";
 declare class Table {
@@ -31,8 +32,8 @@ declare class Table {
     standDealer(): void;
     standUser(): void;
     userWin(): void;
-    private getUserHand;
-    private getDealerHand;
+    getUserHand(): Hand;
+    getDealerHand(): Hand;
     private evaluateHand;
 }
 export default Table;
