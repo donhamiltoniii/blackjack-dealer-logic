@@ -297,5 +297,6 @@ var User = /** @class */ (function (_super) {
 }(Player));
 
 var singleDeckGame = new Table(new User(), new Dealer(standardDeck));
+var index = { singleDeckGame: singleDeckGame, Dealer: Dealer, Result: Result$1, Table: Table, User: User };
 
-export default singleDeckGame;
+export default index;

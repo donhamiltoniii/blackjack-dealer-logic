@@ -299,5 +299,6 @@ var User = /** @class */ (function (_super) {
 }(Player));
 
 var singleDeckGame = new Table(new User(), new Dealer(playingCardDeckGenerator.standardDeck));
+var index = { singleDeckGame: singleDeckGame, Dealer: Dealer, Result: Result$1, Table: Table, User: User };
 
-module.exports = singleDeckGame;
+module.exports = index;

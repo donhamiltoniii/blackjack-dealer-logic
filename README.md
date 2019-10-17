@@ -2,11 +2,11 @@
 
 ## Installation
 
-`yarn add black-jack-dealer-logic`
+`yarn add blackjack-dealer-logic`
 
 or
 
-`npm i black-jack-dealer-logic`
+`npm i blackjack-dealer-logic`
 
 ## Classes
 
