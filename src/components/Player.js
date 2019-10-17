@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var Player = /** @class */ (function () {
     function Player() {
         this.bust = false;
@@ -45,4 +45,4 @@ var Player = /** @class */ (function () {
     };
     return Player;
 }());
-exports.default = Player;
+exports["default"] = Player;

@@ -41,16 +41,8 @@ class Table {
     return this.ante;
   }
 
-  public getDealer(): Dealer {
-    return this.dealer;
-  }
-
   public getDealerCardUp(): string {
     return this.dealer.getCardUp();
-  }
-
-  public getDealerHand(): Hand {
-    return this.dealer.getHand();
   }
 
   public getDealerHandValue() {
@@ -59,10 +51,6 @@ class Table {
 
   public getUserChips(): number {
     return this.user.getChips();
-  }
-
-  public getUserHand(): Hand {
-    return this.user.getHand();
   }
 
   public getUserHandValue(): string {
@@ -144,6 +132,14 @@ class Table {
     const payOut = this.ante * 2;
     this.user.receiveChips(payOut);
     this.resetAnte();
+  }
+
+  private getUserHand(): Hand {
+    return this.user.getHand();
+  }
+
+  private getDealerHand(): Hand {
+    return this.dealer.getHand();
   }
 
   private evaluateHand(values: string[], player: Player): number {

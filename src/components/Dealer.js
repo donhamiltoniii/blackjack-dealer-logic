@@ -12,12 +12,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Hand_1 = __importDefault(require("./Hand"));
-var Player_1 = __importDefault(require("./Player"));
+exports.__esModule = true;
+var Hand_1 = require("./Hand");
+var Player_1 = require("./Player");
 var Dealer = /** @class */ (function (_super) {
     __extends(Dealer, _super);
     function Dealer(deck) {
@@ -30,8 +27,8 @@ var Dealer = /** @class */ (function (_super) {
         return this.deck.dealTopCard();
     };
     Dealer.prototype.dealHands = function () {
-        var firstHand = new Hand_1.default(this.deck.dealTopCard(), this.deck.dealTopCard());
-        var secondHand = new Hand_1.default(this.deck.dealTopCard(), this.deck.dealTopCard());
+        var firstHand = new Hand_1["default"](this.deck.dealTopCard(), this.deck.dealTopCard());
+        var secondHand = new Hand_1["default"](this.deck.dealTopCard(), this.deck.dealTopCard());
         return [firstHand, secondHand];
     };
     Dealer.prototype.getCardUp = function () {
@@ -46,5 +43,5 @@ var Dealer = /** @class */ (function (_super) {
         return this.deck;
     };
     return Dealer;
-}(Player_1.default));
-exports.default = Dealer;
+}(Player_1["default"]));
+exports["default"] = Dealer;

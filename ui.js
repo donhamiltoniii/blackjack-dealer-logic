@@ -1,15 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var playing_card_deck_generator_1 = require("playing-card-deck-generator");
-var readline_sync_1 = __importDefault(require("readline-sync"));
-var Dealer_1 = __importDefault(require("./src/components/Dealer"));
-var Result_1 = __importDefault(require("./src/components/Result"));
-var Table_1 = __importDefault(require("./src/components/Table"));
-var User_1 = __importDefault(require("./src/components/User"));
-var gameTable = new Table_1.default(new User_1.default(), new Dealer_1.default(playing_card_deck_generator_1.standardDeck));
+var readline_sync_1 = require("readline-sync");
+var Dealer_1 = require("./src/components/Dealer");
+var Result_1 = require("./src/components/Result");
+var Table_1 = require("./src/components/Table");
+var User_1 = require("./src/components/User");
+var gameTable = new Table_1["default"](new User_1["default"](), new Dealer_1["default"](playing_card_deck_generator_1.standardDeck));
 var gameIsRunning = true;
 p("--------------------------------------");
 p("Welcome to Dondons BlackJack Emporium!");
@@ -55,14 +52,14 @@ while (gameIsRunning) {
     gameTable.settleDealerHand();
     p("Dealer has: " + gameTable.getDealerHandValue());
     switch (gameTable.outcome()) {
-        case Result_1.default.LOSS:
-            p("You lost you fucking loser...");
+        case Result_1["default"].LOSS:
+            p("You lost...");
             gameTable.resetAnte();
             break;
-        case Result_1.default.PUSH:
-            p("Push... at least you get your money back...");
+        case Result_1["default"].PUSH:
+            p("Push... at least you get your money back!");
             gameTable.pushHand();
-        case Result_1.default.WIN:
+        case Result_1["default"].WIN:
             p("Congrats!!! You win!!!");
             gameTable.userWin();
         default:
@@ -71,9 +68,9 @@ while (gameIsRunning) {
     gameTable.resetPlayers();
 }
 // Private Interface
-function ask(question) {
-    if (question === void 0) { question = ""; }
-    return readline_sync_1.default.question(question);
+function ask(query) {
+    if (query === void 0) { query = ""; }
+    return readline_sync_1.question(query);
 }
 function p(msg) {
     if (msg === void 0) { msg = ""; }

@@ -31,6 +31,7 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "console": "tsc ./ui.ts && node ./ui.js",
     "prepublish": "yarn build",
     "start": "tsc && node dist/ui.js",
     "test": "jest",

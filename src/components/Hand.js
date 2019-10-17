@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var Hand = /** @class */ (function () {
     function Hand(cardOne, cardTwo) {
         this.cards = [];
@@ -25,4 +25,4 @@ var Hand = /** @class */ (function () {
     };
     return Hand;
 }());
-exports.default = Hand;
+exports["default"] = Hand;

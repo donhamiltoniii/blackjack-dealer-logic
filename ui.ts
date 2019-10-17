@@ -1,5 +1,5 @@
 import { standardDeck } from "playing-card-deck-generator";
-import input from "readline-sync";
+import * as input from "readline-sync";
 import Dealer from "./src/components/Dealer";
 import Result from "./src/components/Result";
 import Table from "./src/components/Table";
@@ -60,11 +60,11 @@ while (gameIsRunning) {
 
   switch (gameTable.outcome()) {
     case Result.LOSS:
-      p("You lost you fucking loser...");
+      p("You lost...");
       gameTable.resetAnte();
       break;
     case Result.PUSH:
-      p("Push... at least you get your money back...");
+      p("Push... at least you get your money back!");
       gameTable.pushHand();
     case Result.WIN:
       p("Congrats!!! You win!!!");
@@ -78,8 +78,8 @@ while (gameIsRunning) {
 }
 
 // Private Interface
-function ask(question: string = "") {
-  return input.question(question);
+function ask(query: string = "") {
+  return input.question(query);
 }
 
 function p(msg: string = "") {

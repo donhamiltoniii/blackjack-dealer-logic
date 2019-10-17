@@ -1,7 +1,7 @@
 import Card from "playing-card-deck-generator/dist/Card";
 import Hand from "./Hand";
 
-class Player {
+abstract class Player {
   private bust: boolean;
   private hand: Hand | undefined;
   private playing: boolean;

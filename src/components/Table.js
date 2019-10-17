@@ -1,9 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Result_1 = __importDefault(require("./Result"));
+exports.__esModule = true;
+var Result_1 = require("./Result");
 var Table = /** @class */ (function () {
     function Table(user, dealer) {
         this.ante = 0;
@@ -29,23 +26,14 @@ var Table = /** @class */ (function () {
     Table.prototype.getAnte = function () {
         return this.ante;
     };
-    Table.prototype.getDealer = function () {
-        return this.dealer;
-    };
     Table.prototype.getDealerCardUp = function () {
         return this.dealer.getCardUp();
-    };
-    Table.prototype.getDealerHand = function () {
-        return this.dealer.getHand();
     };
     Table.prototype.getDealerHandValue = function () {
         return this.dealer.getHand().getHandValue();
     };
     Table.prototype.getUserChips = function () {
         return this.user.getChips();
-    };
-    Table.prototype.getUserHand = function () {
-        return this.user.getHand();
     };
     Table.prototype.getUserHandValue = function () {
         return this.user.getHand().getHandValue();
@@ -70,15 +58,15 @@ var Table = /** @class */ (function () {
     };
     Table.prototype.outcome = function () {
         if (this.isDealerBust() && !this.isUserBust()) {
-            return Result_1.default.WIN;
+            return Result_1["default"].WIN;
         }
         if (this.evaluateUser() < this.evaluateDealer() || this.isUserBust()) {
-            return Result_1.default.LOSS;
+            return Result_1["default"].LOSS;
         }
         if (this.evaluateUser() === this.evaluateDealer()) {
-            return Result_1.default.PUSH;
+            return Result_1["default"].PUSH;
         }
-        return Result_1.default.WIN;
+        return Result_1["default"].WIN;
     };
     Table.prototype.pushHand = function () {
         this.user.receiveChips(this.ante);
@@ -112,6 +100,12 @@ var Table = /** @class */ (function () {
         this.user.receiveChips(payOut);
         this.resetAnte();
     };
+    Table.prototype.getUserHand = function () {
+        return this.user.getHand();
+    };
+    Table.prototype.getDealerHand = function () {
+        return this.dealer.getHand();
+    };
     Table.prototype.evaluateHand = function (values, player) {
         var valueTotal = 0;
         values.forEach(function (value) {
@@ -140,4 +134,4 @@ var Table = /** @class */ (function () {
     Table.BLACKJACK = 21;
     return Table;
 }());
-exports.default = Table;
+exports["default"] = Table;

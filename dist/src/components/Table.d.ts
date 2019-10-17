@@ -1,5 +1,4 @@
 import Dealer from "./Dealer";
-import Hand from "./Hand";
 import Result from "./Result";
 import User from "./User";
 declare class Table {
@@ -13,12 +12,9 @@ declare class Table {
     evaluateDealer(): number;
     evaluateUser(): number;
     getAnte(): number;
-    getDealer(): Dealer;
     getDealerCardUp(): string;
-    getDealerHand(): Hand;
     getDealerHandValue(): string;
     getUserChips(): number;
-    getUserHand(): Hand;
     getUserHandValue(): string;
     hitDealer(): void;
     hitUser(): void;
@@ -35,6 +31,8 @@ declare class Table {
     standDealer(): void;
     standUser(): void;
     userWin(): void;
+    private getUserHand;
+    private getDealerHand;
     private evaluateHand;
 }
 export default Table;

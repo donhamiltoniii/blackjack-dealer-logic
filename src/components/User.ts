@@ -3,9 +3,9 @@ import Player from "./Player";
 class User extends Player {
   private chips: number;
 
-  constructor() {
+  constructor(chips: number = 200) {
     super();
-    this.chips = 200;
+    this.chips = chips;
   }
 
   public getChips(): number {

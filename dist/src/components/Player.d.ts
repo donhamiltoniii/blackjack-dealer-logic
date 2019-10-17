@@ -1,6 +1,6 @@
 import Card from "playing-card-deck-generator/dist/Card";
 import Hand from "./Hand";
-declare class Player {
+declare abstract class Player {
     private bust;
     private hand;
     private playing;
