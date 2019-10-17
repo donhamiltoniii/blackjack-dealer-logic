@@ -23,7 +23,7 @@
     "url": "https://github.com/donhamiltoniii/blackjack-dealer-logic/issues"
   },
   "homepage": "https://github.com/donhamiltoniii/blackjack-dealer-logic#readme",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@types/readline-sync": "^1.4.3",
     "playing-card-deck-generator": "^2.0.1",
