@@ -134,11 +134,11 @@ class Table {
     this.resetAnte();
   }
 
-  private getUserHand(): Hand {
+  public getUserHand(): Hand {
     return this.user.getHand();
   }
 
-  private getDealerHand(): Hand {
+  public getDealerHand(): Hand {
     return this.dealer.getHand();
   }
 
