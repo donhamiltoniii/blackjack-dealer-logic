@@ -8,8 +8,6 @@ or
 
 `npm i black-jack-dealer-logic`
 
----
-
 ## Classes
 
 ### `Table`
