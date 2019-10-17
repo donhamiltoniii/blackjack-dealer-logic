@@ -1,7 +1,5 @@
 # Black Jack Game Logic
 
----
-
 ## Installation
 
 `yarn add black-jack-dealer-logic`
